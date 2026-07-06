@@ -511,6 +511,22 @@ class Sqlite {
         if (this.DB_OBJ.prepare(sql).run()){
             console.log('创建[proxy_info]表成功')
         }
+
+        // 创建快捷网站表
+        sql = `CREATE TABLE IF NOT EXISTS quick_site (
+            \`site_id\` INTEGER PRIMARY KEY AUTOINCREMENT,     -- 网站ID
+            \`title\` TEXT DEFAULT "",                         -- 网站名称
+            \`url\` TEXT DEFAULT "",                           -- 网站地址
+            \`username\` TEXT DEFAULT "",                      -- 账号  加密
+            \`password\` TEXT DEFAULT "",                      -- 密码  加密
+            \`notes\` TEXT DEFAULT "",                         -- 备注
+            \`pin\` INTEGER DEFAULT 0,                     -- 是否置顶 1=置顶 0=普通
+            \`addtime\` INTEGER DEFAULT 0                  -- 添加时间
+        )`
+
+        if (this.DB_OBJ.prepare(sql).run()){
+            console.log('创建[quick_site]表成功')
+        }
     }
 
 

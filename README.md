@@ -12,6 +12,7 @@ A professional multi-machine management tool designed for unified management of 
 - 🔒 **Proxy Access Support** - Built-in proxy pool functionality, support server access through proxies
 - 🖥️ **Multi-platform Support** - Support Windows, macOS, Linux platforms
 - 📊 **Unified Panel Management** - Manage multiple BT-Panels in one interface
+- 🌐 **Quick Sites** - Pin frequently used website addresses with account, password and notes (credentials encrypted in local database), one-click copy and open in the built-in browser
 
 ## 🔧 Tech Stack
 

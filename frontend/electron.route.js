@@ -4332,6 +4332,228 @@ const routes = {
 				},
 			},
 		},
+	},
+	quicksite: {
+		list: {
+			title: '获取快捷网站列表',
+			method: 'ipc',
+			path: 'controller.quicksite.list',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					search: {
+						type: 'string',
+						required: false,
+						default: '',
+						description: '搜索关键字',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+					data: 'array', // [{site_id,title,url,username,password,notes,pin,addtime}]
+				},
+			},
+		},
+		add: {
+			title: '添加快捷网站',
+			method: 'ipc',
+			path: 'controller.quicksite.add',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					title: {
+						type: 'string',
+						required: true,
+						description: '网站名称',
+					},
+					url: {
+						type: 'string',
+						required: true,
+						description: '网站地址',
+					},
+					username: {
+						type: 'string',
+						required: false,
+						description: '账号',
+					},
+					password: {
+						type: 'string',
+						required: false,
+						description: '密码',
+					},
+					notes: {
+						type: 'string',
+						required: false,
+						description: '备注',
+					},
+					pin: {
+						type: 'number',
+						required: false,
+						default: 0,
+						description: '是否置顶 1=置顶 0=普通',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+				},
+			},
+		},
+		modify: {
+			title: '修改快捷网站',
+			method: 'ipc',
+			path: 'controller.quicksite.modify',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					site_id: {
+						type: 'number',
+						required: true,
+						description: '网站ID',
+					},
+					title: {
+						type: 'string',
+						required: true,
+						description: '网站名称',
+					},
+					url: {
+						type: 'string',
+						required: true,
+						description: '网站地址',
+					},
+					username: {
+						type: 'string',
+						required: false,
+						description: '账号',
+					},
+					password: {
+						type: 'string',
+						required: false,
+						description: '密码',
+					},
+					notes: {
+						type: 'string',
+						required: false,
+						description: '备注',
+					},
+					pin: {
+						type: 'number',
+						required: false,
+						default: 0,
+						description: '是否置顶 1=置顶 0=普通',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+				},
+			},
+		},
+		remove: {
+			title: '删除快捷网站',
+			method: 'ipc',
+			path: 'controller.quicksite.remove',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					site_id: {
+						type: 'number',
+						required: true,
+						description: '网站ID',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+				},
+			},
+		},
+		set_pin: {
+			title: '设置/取消置顶',
+			method: 'ipc',
+			path: 'controller.quicksite.set_pin',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					site_id: {
+						type: 'number',
+						required: true,
+						description: '网站ID',
+					},
+					pin: {
+						type: 'number',
+						required: true,
+						description: '是否置顶 1=置顶 0=普通',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+				},
+			},
+		},
+		open: {
+			title: '使用内置浏览器窗口打开网站',
+			method: 'ipc',
+			path: 'controller.quicksite.open',
+			args: {
+				channel: {
+					type: 'string',
+					required: true,
+					description: '通道标识',
+				},
+				data: {
+					url: {
+						type: 'string',
+						required: true,
+						description: '网站地址',
+					},
+				},
+			},
+			result: {
+				type: 'object',
+				format: {
+					status: 'boolean',
+					msg: 'string',
+				},
+			},
+		},
 	}
 };
 

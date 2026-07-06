@@ -17,6 +17,10 @@ export const routeList: Array<RouteRecordRaw> = [
 				component: () => import('@views/panel/Views/Details/index.vue'),
 			},
 			{
+				path: '/quicksite',
+				component: () => import('@views/quicksite/index.vue'),
+			},
+			{
 				path: '/xterm',
 				component: () => import('@views/xterm/index.vue'),
 			},

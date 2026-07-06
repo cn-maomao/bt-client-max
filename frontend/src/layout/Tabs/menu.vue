@@ -21,6 +21,13 @@
 					<span class="title">{{ pub.lang('终端') }}</span>
 				</div>
 			</li>
+			<li :class="{ active: $route.path === '/quicksite' }" @click="goTo('/quicksite')">
+				<div class="bg-color"></div>
+				<div class="flex bg-text">
+					<bt-icon name="address" color="1f1f1f" size="16" class="z-1" />
+					<span class="title">{{ pub.lang('网站') }}</span>
+				</div>
+			</li>
 			<!-- <li :class="{ active: $route.path === '/batchSender' }" @click="goTo('/batchSender')">
 				<div class="bg-color"></div>
 				<div class="flex bg-text">

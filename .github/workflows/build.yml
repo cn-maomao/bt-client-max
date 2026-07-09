@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
+          - os: windows-2022
             build_script: build-w
             artifact_name: bt-client-windows
           - os: macos-latest

@@ -1,0 +1,97 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create a GitHub Release with the built artifacts'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2022
+            build_script: build-w
+            artifact_name: bt-client-windows
+          - os: macos-latest
+            build_script: build-m
+            artifact_name: bt-client-macos
+          - os: ubuntu-latest
+            build_script: build-l
+            artifact_name: bt-client-linux
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install root dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Build application
+        run: npm run ${{ matrix.build_script }}
+        env:
+          # Do not attempt code signing in CI (no certificates configured).
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          if-no-files-found: warn
+          retention-days: 7
+          path: |
+            out/*.exe
+            out/*.dmg
+            out/*.zip
+            out/*.deb
+            out/*.rpm
+            out/*.AppImage
+            out/*.7z
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || format('build-{0}', github.run_number) }}
+          name: ${{ github.ref_type == 'tag' && github.ref_name || format('Build {0}', github.run_number) }}
+          draft: false
+          prerelease: ${{ github.ref_type != 'tag' }}
+          files: artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
